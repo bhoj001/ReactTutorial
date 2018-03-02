@@ -1,6 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 
 //this is a stateless call to the components
 class App extends React.Component{
@@ -196,7 +196,7 @@ class AppPropValidation extends React.Component{
 				<h2>number, {this.props.propNumber}</h2>
 				<h3>function , {this.props.propFunc(3)}</h3>
 				<h4>array,{this.props.propArray}</h4>
-				<h5>bool, {this.props.propBool }</h5>
+				<h5>bool, {this.props.propBool?"True...":"False..." }</h5>
 				<h6>string, {this.props.propString}</h6>
 			</div>
 		);
@@ -224,6 +224,77 @@ AppPropValidation.defaultProps={
 }
 
 
+class AppSetStateHandler extends React.Component{
+	constructor(){
+		super();
+		this.state={
+		data:[]
+		}
+		//--this one is for setUpdate()
+		// this.setStateHandler = this.setStateHandler.bind(this);
+		//--This is for forceUpdateHandler
+		//this.forceUpdateHandler = this.forceUpdateHandler.bind(this);
+		//--For findDOMNode
+		this.findDomNodeHandler = this.findDomNodeHandler.bind(this);
+	};
+	//--setState() handler
+	setStateHandler(){
+		var item = "setState...";
+		var myArray = this.state.data.slice();
+			myArray.push(item);
+		this.setState({data:myArray});//this is a setState() function
+	}
+	//--for forceUpdate() handler
+	forceUpdateHandler(){
+		this.forceUpdate();
+	}
+
+	//--For find DOM node
+	findDomNodeHandler(){
+		var elementDIv = document.getElementById('myDiv');
+		ReactDOM.findDOMNode(elementDIv).style.color='blue';
+	}
+	render(){
+		return(
+			<div>
+				
+				{/* <button onClick={this.setStateHandler}>SET STATE :)</button>
+				<h4>state array: {this.state.data}</h4> */}
+
+				{/* <button onClick={this.forceUpdateHandler}>FORCE UPDATE :)</button>
+				<h4>Random number:{Math.random()}</h4> */}
+
+
+				<button onClick={this.findDomNodeHandler}>Find DOM Node :)</button>
+				<div id='myDiv'>Random color</div>
+			</div>
+		);
+	}
+}
+
+
+//This is form handling in Reactjs
+class AppFormsExample extends React.Component{
+	constructor(props) {
+		super(props);
+		
+		this.state = {
+		   data: 'Initial data...'
+		}
+		this.updateState = this.updateState.bind(this);
+	 }
+	 updateState(e) {
+		this.setState({data: e.target.value});
+	 }
+	 render() {
+		return (
+		   <div>
+			  <input type = "text" value = { this.state.data } onChange = { this.updateState } />
+			  <h4>{ this.state.data }</h4>
+		   </div>
+		);
+	 }
+}
 
 
 //export twice can not be done instead we need to use module.exports 
@@ -237,4 +308,6 @@ module.exports = {
 	AppDefault:AppDefault,
 	StatePropsCombine:StatePropsCombine,
 	AppPropValidation:AppPropValidation,
+	AppSetStateHandler:AppSetStateHandler,
+	AppFormsExample:AppFormsExample,
 }	

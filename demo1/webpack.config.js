@@ -8,7 +8,10 @@ var config ={
 	},	
 	devServer:{
 		inline:true,
-		port:8081
+		port:8082
+	},
+	externals:{
+		'react':'React'
 	},
 	module:{
 	loaders:[
