@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
+// window.React = React;
+// window.ReactDOM = ReactDOM;
 //this is a stateless call to the components
 class App extends React.Component{
 	render(){
@@ -274,6 +276,7 @@ class AppSetStateHandler extends React.Component{
 
 
 //This is form handling in Reactjs
+
 class AppFormsExample extends React.Component{
 	constructor(props) {
 		super(props);
@@ -296,6 +299,114 @@ class AppFormsExample extends React.Component{
 	 }
 }
 
+class AppEvents extends React.Component{
+	constructor(props){
+		super(props);
+		this.state = {
+			data_value : "Initial state...."
+		}
+		this.updateState = this.updateState.bind(this);
+
+	}
+	updateState(){
+		this.setState({data_value :"Updated data after clicking using onclick event..."});
+	}
+
+	render(){
+		return(
+			<div>
+			{/* <button onClick={this.updateState}>CLICK WOO</button>
+			<h4>{this.state.data_value}</h4> */}
+
+			<AppEventsChildToUpdateParent  myDataProp = {this.state.data_value} myUpdateStateProp = {this.updateState} ></AppEventsChildToUpdateParent>
+			</div>
+
+		);
+	}
+
+}
+class AppEventsChildToUpdateParent extends React.Component{
+	render(){
+	  return(
+		  <div>
+			  <button onClick = {this.props.myUpdateStateProp} >ClickChild</button>
+			  <h4>{this.props.myDataProp}</h4>
+		  </div>
+	  );
+	}
+}
+
+class AppRefsExample extends React.Component{
+	constructor(props){
+		super(props);
+		this.state = {
+			data_value1 : "Initial state...."
+		}
+		this.updateState = this.updateState.bind(this);
+		this.clearInput = this.clearInput.bind(this);
+
+	}
+	updateState(e){
+		this.setState({data_value1 :e.target.value});
+	}
+	clearInput(){
+		this.setState({data_value1 :""});
+		ReactDOM.findDOMNode(this.refs.myInput).focus();
+	}
+	render(){
+		return(
+			<div>
+			    <input value={this.state.data_value1} onChange={this.updateState} refs="myInput" ></input>
+				<button onClick={this.clearInput}>Clear</button>
+				<h4>{this.state.data_value1}</h4>
+			</div>
+		);
+	}
+}
+
+//ReactJS keys
+class AppKeysExample extends React.Component{
+	constructor(props){
+		super(props);
+		this.state = {
+			data:[
+				{
+					component:"First component...",
+					id:1
+				},
+				{
+					component:"Second component...",
+					id:66  //this is willingly made 66 to check ouput
+				},
+				{
+					component:"Third component...",
+					id:3
+				}
+			]
+		}
+	
+	}
+	
+	render(){
+		return(
+			<div>
+			   {this.state.data.map((dynamicComponent,i)=>
+			   <KeysExampleContent keys={i} componentData={dynamicComponent} />)}
+			</div>
+		);
+	}
+}
+
+class KeysExampleContent extends React.Component{
+	render(){
+		return(
+			<div>
+				<div>{this.props.componentData.component}</div>
+				<div>{this.props.componentData.id}</div>
+			</div>
+		);
+	}
+}
 
 //export twice can not be done instead we need to use module.exports 
 //export default App;
@@ -310,4 +421,7 @@ module.exports = {
 	AppPropValidation:AppPropValidation,
 	AppSetStateHandler:AppSetStateHandler,
 	AppFormsExample:AppFormsExample,
+	AppEvents:AppEvents,
+	AppRefsExample:AppRefsExample,
+	AppKeysExample:AppKeysExample,
 }	
